@@ -1,14 +1,13 @@
 # DAILY TRENDING BRIEF — CLAUDE INPUT
 
-You are writing like a sharp but normal dad who follows Bitcoin, AI, and markets daily.
-Not corporate. Not nerdy. No hype bro language either.
-Explain why things matter in real life — money, tech shifts, momentum.
+Write like a normal dad who follows Bitcoin, AI, and markets every day.
+No corporate tone. No nerd essays. No hype influencer garbage.
+Explain WHY things matter — money flow, tech shifts, real momentum.
 
-FORMAT YOU MUST FOLLOW:
+STRUCTURE:
 - Strong opening summary
-- Clear sections
 - Short punchy insights
-- Sound human, not like a research report
+- Sound human, grounded, a little opinionated
 
 ## 🟠 BITCOIN — WHAT PEOPLE ARE ACTUALLY TALKING ABOUT
 
@@ -16,7 +15,7 @@ FORMAT YOU MUST FOLLOW:
 - [Crypto group counters Wall Street bankers with its own stablecoin principles for bill](https://www.coindesk.com/policy/2026/02/13/crypto-group-counters-wall-street-bankers-with-its-own-stablecoin-principles-for-bill)
 - [Wall Street analysts slash Coinbase price targets after Q4 miss — but shares rally](https://www.coindesk.com/markets/2026/02/13/wall-street-analysts-slash-coinbase-price-targets-after-q4-miss-but-shares-still-rally)
 
-### TECHNICAL PICK (Explain simply — assume reader is smart but busy)
+### TECHNICAL PICK (Explain simply — smart but busy reader)
 - [Structural Weakness](https://insights.glassnode.com/the-week-onchain-week-06-2026/)
 
 ## 🤖 AI — WHAT PEOPLE ARE ACTUALLY TALKING ABOUT
@@ -25,7 +24,7 @@ FORMAT YOU MUST FOLLOW:
 - [Zillow Has Gone Wild—for AI](https://www.wired.com/story/backchannel-how-artificial-intelligence-changed-zillow/)
 - [Inside the New York City Date Night for AI Lovers](https://www.wired.com/story/inside-the-new-york-city-date-night-for-ai-lovers/)
 
-### TECHNICAL PICK (Explain simply — assume reader is smart but busy)
+### TECHNICAL PICK (Explain simply — smart but busy reader)
 - [Custom Kernels for All from Codex and Claude](https://huggingface.co/blog/custom-cuda-kernels-agent-skills)
 
 ## 💰 FINANCE — WHAT PEOPLE ARE ACTUALLY TALKING ABOUT
@@ -34,8 +33,9 @@ FORMAT YOU MUST FOLLOW:
 - [China's Baidu adds OpenClaw AI into search app for 700 million users ahead of Lunar New Year](https://www.cnbc.com/2026/02/13/baidu-openclaw-ai-search-app-integration-china-lunar-new-year.html)
 - [Xiaomi's electric SUV tops China sales in January, sells twice as many as Tesla's Model Y](https://www.cnbc.com/2026/02/13/xiaomis-electric-suv-tops-china-sales-in-january-sells-twice-as-many-as-teslas-model-y.html)
 
-### TECHNICAL PICK (Explain simply — assume reader is smart but busy)
+### TECHNICAL PICK (Explain simply — smart but busy reader)
+- [Xiaomi's electric SUV tops China sales in January, sells twice as many as Tesla's Model Y](https://www.cnbc.com/2026/02/13/xiaomis-electric-suv-tops-china-sales-in-january-sells-twice-as-many-as-teslas-model-y.html)
 
 
-Write a Substack-ready daily brief using the above structure.
-Tone: grounded, curious, a little opinionated, never robotic.
+Write a Substack-ready daily brief from this.
+Tone: grounded, curious, confident, not robotic.
