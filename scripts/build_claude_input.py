@@ -102,25 +102,29 @@ def build():
                     if len(sections[name]["trending"]) < TRENDING_LIMIT:
                         sections[name]["trending"].append(item)
 
+    # 🔥 FALLBACK: ensure technical pick always exists
+    for key in sections:
+        if not sections[key]["tech"] and sections[key]["trending"]:
+            sections[key]["tech"].append(sections[key]["trending"][-1])
+
     md = []
 
-    # 🔥 OPUS VOICE PRIMER
+    # 🔥 YOUR VOICE — OPUS PRIMER
     md.append("# DAILY TRENDING BRIEF — CLAUDE INPUT\n")
-    md.append("You are writing like a sharp but normal dad who follows Bitcoin, AI, and markets daily.")
-    md.append("Not corporate. Not nerdy. No hype bro language either.")
-    md.append("Explain why things matter in real life — money, tech shifts, momentum.\n")
+    md.append("Write like a normal dad who follows Bitcoin, AI, and markets every day.")
+    md.append("No corporate tone. No nerd essays. No hype influencer garbage.")
+    md.append("Explain WHY things matter — money flow, tech shifts, real momentum.\n")
 
-    md.append("FORMAT YOU MUST FOLLOW:")
+    md.append("STRUCTURE:")
     md.append("- Strong opening summary")
-    md.append("- Clear sections")
     md.append("- Short punchy insights")
-    md.append("- Sound human, not like a research report\n")
+    md.append("- Sound human, grounded, a little opinionated\n")
 
     def write_section(label,key):
         md.append(f"## {label} — WHAT PEOPLE ARE ACTUALLY TALKING ABOUT\n")
         md.extend(sections[key]["trending"])
         md.append("")
-        md.append("### TECHNICAL PICK (Explain simply — assume reader is smart but busy)")
+        md.append("### TECHNICAL PICK (Explain simply — smart but busy reader)")
         md.extend(sections[key]["tech"])
         md.append("")
 
@@ -128,8 +132,8 @@ def build():
     write_section("🤖 AI","ai")
     write_section("💰 FINANCE","finance_macro")
 
-    md.append("\nWrite a Substack-ready daily brief using the above structure.")
-    md.append("Tone: grounded, curious, a little opinionated, never robotic.")
+    md.append("\nWrite a Substack-ready daily brief from this.")
+    md.append("Tone: grounded, curious, confident, not robotic.")
 
     out.write_text("\n".join(md),encoding="utf-8")
     print(f"Wrote: {out}")
