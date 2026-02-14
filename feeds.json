@@ -1,1 +1,40 @@
-
+{
+  "version": "1.0",
+  "categories": [
+    {
+      "name": "bitcoin_crypto",
+      "feeds": [
+        { "id": "coindesk_all", "name": "CoinDesk (All)", "url": "https://www.coindesk.com/arc/outboundfeeds/rss/?outputType=xml", "priority": 1 },
+        { "id": "cointelegraph_all", "name": "Cointelegraph (All)", "url": "https://cointelegraph.com/rss", "priority": 2 },
+        { "id": "decrypt_all", "name": "Decrypt (All)", "url": "https://decrypt.co/feed", "priority": 2 },
+        { "id": "blockworks_all", "name": "Blockworks (All)", "url": "https://blockworks.co/feed/", "priority": 2 },
+        { "id": "glassnode_insights", "name": "Glassnode Insights", "url": "https://insights.glassnode.com/rss", "priority": 3 },
+        { "id": "messari_rss", "name": "Messari (RSS)", "url": "https://messari.io/rss", "priority": 3 }
+      ]
+    },
+    {
+      "name": "ai",
+      "feeds": [
+        { "id": "venturebeat_ai", "name": "VentureBeat (AI)", "url": "https://venturebeat.com/category/ai/feed/", "priority": 1 },
+        { "id": "wired_ai", "name": "WIRED (AI tag)", "url": "https://www.wired.com/feed/tag/ai/latest/rss", "priority": 2 },
+        { "id": "huggingface_blog", "name": "Hugging Face Blog", "url": "https://huggingface.co/blog/feed.xml", "priority": 2 },
+        { "id": "mit_ai_topic", "name": "MIT News (AI topic)", "url": "https://news.mit.edu/rss/topic/artificial-intelligence2", "priority": 3 }
+      ]
+    },
+    {
+      "name": "finance_macro",
+      "feeds": [
+        { "id": "cnbc_topnews", "name": "CNBC (Top News)", "url": "https://www.cnbc.com/id/10000664/device/rss/rss.html", "priority": 1 },
+        { "id": "yahoo_finance_news_index", "name": "Yahoo Finance (News Index)", "url": "https://finance.yahoo.com/news/rssindex", "priority": 2 }
+      ]
+    },
+    {
+      "name": "google_news_backstops",
+      "feeds": [
+        { "id": "googlenews_bitcoin", "name": "Google News: Bitcoin", "url": "https://news.google.com/rss/search?q=bitcoin&hl=en-US&gl=US&ceid=US:en", "priority": 9 },
+        { "id": "googlenews_ai", "name": "Google News: AI", "url": "https://news.google.com/rss/search?q=%22artificial%20intelligence%22%20OR%20AI%20OR%20%22machine%20learning%22&hl=en-US&gl=US&ceid=US:en", "priority": 9 },
+        { "id": "googlenews_macro", "name": "Google News: Fed + Inflation + Rates", "url": "https://news.google.com/rss/search?q=Federal%20Reserve%20OR%20inflation%20OR%20interest%20rates&hl=en-US&gl=US&ceid=US:en", "priority": 9 }
+      ]
+    }
+  ]
+}
