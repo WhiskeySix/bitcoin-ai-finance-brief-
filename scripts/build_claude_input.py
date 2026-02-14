@@ -14,8 +14,8 @@ OUT_DIR = ROOT / "briefs"
 DAYS_BACK = 3
 TRENDING_LIMIT = 3
 TECH_LIMIT = 1
+HEADLINE_STRIP_LIMIT = 6
 
-# 🔥 VIRAL + CROSSOVER KEYWORDS
 KEYWORDS = [
     "ai","bitcoin","crypto","etf","sec","china","credit",
     "stablecoin","rates","inflation","macro","fed",
@@ -58,17 +58,14 @@ def score_title(title):
     t = title.lower()
     return sum(1 for w in KEYWORDS if w in t)
 
-# 🧠 Narrative detector
 def detect_narrative(headlines):
     tokens=[]
     for h in headlines:
         for w in KEYWORDS:
             if w in h.lower():
                 tokens.append(w)
-
     if not tokens:
         return None
-
     top = Counter(tokens).most_common(3)
     return ", ".join([t[0].upper() for t in top])
 
@@ -87,6 +84,7 @@ def build():
 
     chart_candidates=[]
     all_titles=[]
+    headline_pool=[]
 
     for cat in feeds["categories"]:
         name=cat["name"]
@@ -123,6 +121,7 @@ def build():
 
                 sections[name]["items"].append(item)
                 all_titles.append(title)
+                headline_pool.append(item)
 
                 if any(src in d for src in CHART_SOURCES):
                     chart_candidates.append(item)
@@ -133,6 +132,7 @@ def build():
             reverse=True
         )
 
+    headline_pool.sort(key=lambda x:x["score"],reverse=True)
     chart_candidates.sort(key=lambda x:x["score"],reverse=True)
 
     narrative = detect_narrative(all_titles)
@@ -142,11 +142,18 @@ def build():
     md.append("Write like a sharp but normal dad tracking Bitcoin, AI, and markets.")
     md.append("Not corporate. Not nerdy essays. Explain why things matter in real life.\n")
 
-    # 🧠 NARRATIVE ENGINE
+    # 🧠 Narrative Engine
     if narrative:
         md.append("## 🧠 NARRATIVE OF THE DAY — WHY THIS STUFF IS CONNECTED\n")
-        md.append(f"Main crossover themes showing up today: {narrative}.")
+        md.append(f"Main crossover themes today: {narrative}.")
         md.append("Open with a strong macro observation tying these together.\n")
+
+    # 👀 HEADLINES STRIP
+    if headline_pool:
+        md.append("## 👀 YOU’LL HEAR THIS TODAY\n")
+        for item in headline_pool[:HEADLINE_STRIP_LIMIT]:
+            md.append(f"- [{item['title']}]({item['link']})")
+        md.append("Write these as rapid-fire observations before the deep sections.\n")
 
     def write_section(label,key):
         md.append(f"## {label} — WHAT PEOPLE ARE ACTUALLY TALKING ABOUT\n")
@@ -180,7 +187,7 @@ def build():
         md.append("## 📊 CHART SIGNAL — WHAT SMART MONEY IS WATCHING\n")
         top_chart=chart_candidates[0]
         md.append(f"- [{top_chart['title']}]({top_chart['link']})\n")
-        md.append("Explain the underlying macro signal like you’re talking to a smart friend.\n")
+        md.append("Explain the macro signal like talking to a smart friend.\n")
 
     md.append("\nWrite a Substack-ready daily brief from this.")
     md.append("Tone: grounded, curious, slightly opinionated.")
