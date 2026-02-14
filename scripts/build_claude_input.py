@@ -3,6 +3,7 @@ import re
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlparse
+from collections import Counter
 
 import feedparser
 
@@ -11,19 +12,19 @@ FEEDS_PATH = ROOT / "feeds.json"
 OUT_DIR = ROOT / "briefs"
 
 DAYS_BACK = 3
-
 TRENDING_LIMIT = 3
 TECH_LIMIT = 1
 
-# 🔥 CROSSOVER KEYWORDS (viral signals)
-CROSSOVER_WORDS = [
-    "ai","bitcoin","crypto","etf","sec","china","trump",
-    "credit","stablecoin","prediction","market","nvidia",
+# 🔥 VIRAL + CROSSOVER KEYWORDS
+KEYWORDS = [
+    "ai","bitcoin","crypto","etf","sec","china","credit",
+    "stablecoin","rates","inflation","macro","fed",
+    "yield","nvidia","tesla","trump","markets"
 ]
 
 TECH_SOURCES = ["glassnode","huggingface","messari"]
-
 BLOCK_WORDS = ["earnings call","transcript","sec filing"]
+CHART_SOURCES = ["cnbc","bloomberg","wsj","ft.com","marketwatch"]
 
 def clean_text(s):
     return re.sub(r"\s+"," ",(s or "").strip())
@@ -53,14 +54,23 @@ def load_feeds():
 def fetch(url):
     return feedparser.parse(url)
 
-# 🔥 VIRAL SCORING
-def viral_score(title):
+def score_title(title):
     t = title.lower()
-    score = 0
-    for word in CROSSOVER_WORDS:
-        if word in t:
-            score += 1
-    return score
+    return sum(1 for w in KEYWORDS if w in t)
+
+# 🧠 Narrative detector
+def detect_narrative(headlines):
+    tokens=[]
+    for h in headlines:
+        for w in KEYWORDS:
+            if w in h.lower():
+                tokens.append(w)
+
+    if not tokens:
+        return None
+
+    top = Counter(tokens).most_common(3)
+    return ", ".join([t[0].upper() for t in top])
 
 def build():
     OUT_DIR.mkdir(parents=True,exist_ok=True)
@@ -69,23 +79,26 @@ def build():
     date_str = datetime.now().strftime("%Y-%m-%d")
     out = OUT_DIR / f"{date_str}-CLAUDE-INPUT.md"
 
-    sections = {
+    sections={
         "bitcoin_crypto":{"items":[]},
         "ai":{"items":[]},
         "finance_macro":{"items":[]},
     }
 
+    chart_candidates=[]
+    all_titles=[]
+
     for cat in feeds["categories"]:
-        name = cat["name"]
+        name=cat["name"]
         if name not in sections:
             continue
 
         for feed in cat["feeds"]:
-            parsed = fetch(feed["url"])
+            parsed=fetch(feed["url"])
 
             for e in parsed.entries[:15]:
-                title = clean_text(getattr(e,"title",""))
-                link = clean_text(getattr(e,"link",""))
+                title=clean_text(getattr(e,"title",""))
+                link=clean_text(getattr(e,"link",""))
 
                 if not title or not link:
                     continue
@@ -93,41 +106,57 @@ def build():
                 if any(b in title.lower() for b in BLOCK_WORDS):
                     continue
 
-                dt = parse_datetime(e)
+                dt=parse_datetime(e)
                 if not within_days(dt):
                     continue
 
-                score = viral_score(title)
-                d = domain(link)
+                d=domain(link)
+                score=score_title(title)
 
-                sections[name]["items"].append({
+                item={
                     "title":title,
                     "link":link,
                     "score":score,
-                    "tech": any(t in d for t in TECH_SOURCES)
-                })
+                    "tech": any(t in d for t in TECH_SOURCES),
+                    "domain":d
+                }
 
-    # 🔥 SORT BY VIRAL SCORE
+                sections[name]["items"].append(item)
+                all_titles.append(title)
+
+                if any(src in d for src in CHART_SOURCES):
+                    chart_candidates.append(item)
+
     for key in sections:
         sections[key]["items"].sort(
             key=lambda x:(x["score"],not x["tech"]),
             reverse=True
         )
 
-    md = []
+    chart_candidates.sort(key=lambda x:x["score"],reverse=True)
 
+    narrative = detect_narrative(all_titles)
+
+    md=[]
     md.append("# DAILY TRENDING BRIEF — CLAUDE INPUT\n")
     md.append("Write like a sharp but normal dad tracking Bitcoin, AI, and markets.")
-    md.append("Not corporate. Not nerdy essays. Explain why it matters in real life.\n")
+    md.append("Not corporate. Not nerdy essays. Explain why things matter in real life.\n")
+
+    # 🧠 NARRATIVE ENGINE
+    if narrative:
+        md.append("## 🧠 NARRATIVE OF THE DAY — WHY THIS STUFF IS CONNECTED\n")
+        md.append(f"Main crossover themes showing up today: {narrative}.")
+        md.append("Open with a strong macro observation tying these together.\n")
 
     def write_section(label,key):
         md.append(f"## {label} — WHAT PEOPLE ARE ACTUALLY TALKING ABOUT\n")
 
-        trending = []
-        tech = []
+        trending=[]
+        tech=[]
 
         for item in sections[key]["items"]:
-            line = f"- [{item['title']}]({item['link']})"
+            line=f"- [{item['title']}]({item['link']})"
+
             if item["tech"] and len(tech)<TECH_LIMIT:
                 tech.append(line)
             elif len(trending)<TRENDING_LIMIT:
@@ -145,6 +174,13 @@ def build():
     write_section("🟠 BITCOIN","bitcoin_crypto")
     write_section("🤖 AI","ai")
     write_section("💰 FINANCE","finance_macro")
+
+    # 📊 CHART SIGNAL
+    if chart_candidates:
+        md.append("## 📊 CHART SIGNAL — WHAT SMART MONEY IS WATCHING\n")
+        top_chart=chart_candidates[0]
+        md.append(f"- [{top_chart['title']}]({top_chart['link']})\n")
+        md.append("Explain the underlying macro signal like you’re talking to a smart friend.\n")
 
     md.append("\nWrite a Substack-ready daily brief from this.")
     md.append("Tone: grounded, curious, slightly opinionated.")
