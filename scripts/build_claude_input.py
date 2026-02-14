@@ -12,34 +12,31 @@ OUT_DIR = ROOT / "briefs"
 
 DAYS_BACK = 3
 
-BLOCK_WORDS = [
-    "earnings call",
-    "transcript",
-    "sec filing",
-    "quarterly results",
-]
-
-TECH_SOURCES = [
-    "glassnode",
-    "huggingface",
-    "messari",
-]
-
 TRENDING_LIMIT = 3
 TECH_LIMIT = 1
 
+# 🔥 CROSSOVER KEYWORDS (viral signals)
+CROSSOVER_WORDS = [
+    "ai","bitcoin","crypto","etf","sec","china","trump",
+    "credit","stablecoin","prediction","market","nvidia",
+]
+
+TECH_SOURCES = ["glassnode","huggingface","messari"]
+
+BLOCK_WORDS = ["earnings call","transcript","sec filing"]
+
 def clean_text(s):
-    return re.sub(r"\s+", " ", (s or "").strip())
+    return re.sub(r"\s+"," ",(s or "").strip())
 
 def domain(url):
     try:
-        return urlparse(url).netloc.replace("www.", "")
+        return urlparse(url).netloc.replace("www.","")
     except:
         return ""
 
 def parse_datetime(entry):
-    for key in ("published_parsed","updated_parsed"):
-        t = getattr(entry,key,None)
+    for k in ("published_parsed","updated_parsed"):
+        t = getattr(entry,k,None)
         if t:
             return datetime(*t[:6],tzinfo=timezone.utc)
     return None
@@ -56,18 +53,26 @@ def load_feeds():
 def fetch(url):
     return feedparser.parse(url)
 
+# 🔥 VIRAL SCORING
+def viral_score(title):
+    t = title.lower()
+    score = 0
+    for word in CROSSOVER_WORDS:
+        if word in t:
+            score += 1
+    return score
+
 def build():
     OUT_DIR.mkdir(parents=True,exist_ok=True)
     feeds = load_feeds()
 
-    now = datetime.now(timezone.utc)
-    date_str = now.strftime("%Y-%m-%d")
+    date_str = datetime.now().strftime("%Y-%m-%d")
     out = OUT_DIR / f"{date_str}-CLAUDE-INPUT.md"
 
     sections = {
-        "bitcoin_crypto": {"trending":[],"tech":[]},
-        "ai": {"trending":[],"tech":[]},
-        "finance_macro": {"trending":[],"tech":[]}
+        "bitcoin_crypto":{"items":[]},
+        "ai":{"items":[]},
+        "finance_macro":{"items":[]},
     }
 
     for cat in feeds["categories"]:
@@ -78,7 +83,7 @@ def build():
         for feed in cat["feeds"]:
             parsed = fetch(feed["url"])
 
-            for e in parsed.entries[:10]:
+            for e in parsed.entries[:15]:
                 title = clean_text(getattr(e,"title",""))
                 link = clean_text(getattr(e,"link",""))
 
@@ -92,40 +97,49 @@ def build():
                 if not within_days(dt):
                     continue
 
+                score = viral_score(title)
                 d = domain(link)
-                item = f"- [{title}]({link})"
 
-                if any(t in d for t in TECH_SOURCES):
-                    if len(sections[name]["tech"]) < TECH_LIMIT:
-                        sections[name]["tech"].append(item)
-                else:
-                    if len(sections[name]["trending"]) < TRENDING_LIMIT:
-                        sections[name]["trending"].append(item)
+                sections[name]["items"].append({
+                    "title":title,
+                    "link":link,
+                    "score":score,
+                    "tech": any(t in d for t in TECH_SOURCES)
+                })
 
-    # 🔥 FALLBACK: ensure technical pick always exists
+    # 🔥 SORT BY VIRAL SCORE
     for key in sections:
-        if not sections[key]["tech"] and sections[key]["trending"]:
-            sections[key]["tech"].append(sections[key]["trending"][-1])
+        sections[key]["items"].sort(
+            key=lambda x:(x["score"],not x["tech"]),
+            reverse=True
+        )
 
     md = []
 
-    # 🔥 YOUR VOICE — OPUS PRIMER
     md.append("# DAILY TRENDING BRIEF — CLAUDE INPUT\n")
-    md.append("Write like a normal dad who follows Bitcoin, AI, and markets every day.")
-    md.append("No corporate tone. No nerd essays. No hype influencer garbage.")
-    md.append("Explain WHY things matter — money flow, tech shifts, real momentum.\n")
-
-    md.append("STRUCTURE:")
-    md.append("- Strong opening summary")
-    md.append("- Short punchy insights")
-    md.append("- Sound human, grounded, a little opinionated\n")
+    md.append("Write like a sharp but normal dad tracking Bitcoin, AI, and markets.")
+    md.append("Not corporate. Not nerdy essays. Explain why it matters in real life.\n")
 
     def write_section(label,key):
         md.append(f"## {label} — WHAT PEOPLE ARE ACTUALLY TALKING ABOUT\n")
-        md.extend(sections[key]["trending"])
+
+        trending = []
+        tech = []
+
+        for item in sections[key]["items"]:
+            line = f"- [{item['title']}]({item['link']})"
+            if item["tech"] and len(tech)<TECH_LIMIT:
+                tech.append(line)
+            elif len(trending)<TRENDING_LIMIT:
+                trending.append(line)
+
+        if not tech and trending:
+            tech.append(trending[-1])
+
+        md.extend(trending)
         md.append("")
         md.append("### TECHNICAL PICK (Explain simply — smart but busy reader)")
-        md.extend(sections[key]["tech"])
+        md.extend(tech)
         md.append("")
 
     write_section("🟠 BITCOIN","bitcoin_crypto")
@@ -133,7 +147,7 @@ def build():
     write_section("💰 FINANCE","finance_macro")
 
     md.append("\nWrite a Substack-ready daily brief from this.")
-    md.append("Tone: grounded, curious, confident, not robotic.")
+    md.append("Tone: grounded, curious, slightly opinionated.")
 
     out.write_text("\n".join(md),encoding="utf-8")
     print(f"Wrote: {out}")
