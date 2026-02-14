@@ -11,21 +11,21 @@ Open with a strong macro observation tying these together.
 ## 👀 YOU’LL HEAR THIS TODAY
 
 - [Trump-linked Truth Social seeks SEC approval for two crypto ETFs](https://www.coindesk.com/markets/2026/02/13/trump-linked-truth-social-seeks-sec-approval-for-two-crypto-etfs)
+- [Trump Media files for two new crypto ETFs tied to Bitcoin, Ether, Cronos](https://cointelegraph.com/news/trump-media-files-crypto-etfs-bitcoin-ether-cronos-sec?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound)
 - [White House crypto adviser says banks shouldn't fear stablecoin yield](https://cointelegraph.com/news/white-house-banks-shouldnt-fear-stablecoin-yield?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound)
 - [Trump Media Files to Launch Truth Social-Branded Bitcoin, Ethereum, Cronos ETFs](https://decrypt.co/358079/trump-media-files-truth-social-bitcoin-ethereum-cronos-etfs)
 - [Clarity Act Passage Would 'Comfort' Markets Amid Bitcoin Volatility: Treasury Secretary Bessent](https://decrypt.co/358067/clarity-act-passage-comfort-markets-bitcoin-volatility-bessent)
 - [AI disruption could spark a ‘shock to the system’ in credit markets, UBS analyst says](https://www.cnbc.com/2026/02/13/ai-credit-markets.html)
-- [Crypto group counters Wall Street bankers with its own stablecoin principles for bill](https://www.coindesk.com/policy/2026/02/13/crypto-group-counters-wall-street-bankers-with-its-own-stablecoin-principles-for-bill)
 Write these as rapid-fire observations before the deep sections.
 
 ## 🟠 BITCOIN — WHAT PEOPLE ARE ACTUALLY TALKING ABOUT
 
 - [Trump-linked Truth Social seeks SEC approval for two crypto ETFs](https://www.coindesk.com/markets/2026/02/13/trump-linked-truth-social-seeks-sec-approval-for-two-crypto-etfs)
+- [Trump Media files for two new crypto ETFs tied to Bitcoin, Ether, Cronos](https://cointelegraph.com/news/trump-media-files-crypto-etfs-bitcoin-ether-cronos-sec?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound)
 - [White House crypto adviser says banks shouldn't fear stablecoin yield](https://cointelegraph.com/news/white-house-banks-shouldnt-fear-stablecoin-yield?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound)
-- [Trump Media Files to Launch Truth Social-Branded Bitcoin, Ethereum, Cronos ETFs](https://decrypt.co/358079/trump-media-files-truth-social-bitcoin-ethereum-cronos-etfs)
 
 ### TECHNICAL PICK (Explain simply — smart but busy reader)
-- [The Bitcoin Vector #42](https://insights.glassnode.com/the-bitcoin-vector-42/)
+- [Crypto Venture Weekly: Feb. 9-13, 2026](https://messari.io/article/crypto-venture-weekly-feb-9-13-2026)
 
 ## 🤖 AI — WHAT PEOPLE ARE ACTUALLY TALKING ABOUT
 
