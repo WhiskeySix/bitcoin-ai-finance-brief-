@@ -1,13 +1,18 @@
 # DAILY TRENDING BRIEF — CLAUDE INPUT
 
 Write like a sharp but normal dad tracking Bitcoin, AI, and markets.
-Not corporate. Not nerdy essays. Explain why it matters in real life.
+Not corporate. Not nerdy essays. Explain why things matter in real life.
+
+## 🧠 NARRATIVE OF THE DAY — WHY THIS STUFF IS CONNECTED
+
+Main crossover themes showing up today: AI, BITCOIN, CRYPTO.
+Open with a strong macro observation tying these together.
 
 ## 🟠 BITCOIN — WHAT PEOPLE ARE ACTUALLY TALKING ABOUT
 
 - [Trump-linked Truth Social seeks SEC approval for two crypto ETFs](https://www.coindesk.com/markets/2026/02/13/trump-linked-truth-social-seeks-sec-approval-for-two-crypto-etfs)
+- [White House crypto adviser says banks shouldn't fear stablecoin yield](https://cointelegraph.com/news/white-house-banks-shouldnt-fear-stablecoin-yield?utm_source=rss_feed&utm_medium=rss&utm_campaign=rss_partner_inbound)
 - [Trump Media Files to Launch Truth Social-Branded Bitcoin, Ethereum, Cronos ETFs](https://decrypt.co/358079/trump-media-files-truth-social-bitcoin-ethereum-cronos-etfs)
-- [Clarity Act Passage Would 'Comfort' Markets Amid Bitcoin Volatility: Treasury Secretary Bessent](https://decrypt.co/358067/clarity-act-passage-comfort-markets-bitcoin-volatility-bessent)
 
 ### TECHNICAL PICK (Explain simply — smart but busy reader)
 - [The Bitcoin Vector #42](https://insights.glassnode.com/the-bitcoin-vector-42/)
@@ -25,10 +30,16 @@ Not corporate. Not nerdy essays. Explain why it matters in real life.
 
 - [AI disruption could spark a ‘shock to the system’ in credit markets, UBS analyst says](https://www.cnbc.com/2026/02/13/ai-credit-markets.html)
 - [China's Baidu adds OpenClaw AI into search app for 700 million users ahead of Lunar New Year](https://www.cnbc.com/2026/02/13/baidu-openclaw-ai-search-app-integration-china-lunar-new-year.html)
-- [Michael Saylor downplays Strategy credit risk as bitcoin tumbles: 'We'll refinance the debt'](https://www.cnbc.com/2026/02/10/michael-saylor-downplays-strategy-credit-risk-as-bitcoin-tumbles-well-refinance-the-debt.html)
+- [Xiaomi's electric SUV tops China sales in January, sells twice as many as Tesla's Model Y](https://www.cnbc.com/2026/02/13/xiaomis-electric-suv-tops-china-sales-in-january-sells-twice-as-many-as-teslas-model-y.html)
 
 ### TECHNICAL PICK (Explain simply — smart but busy reader)
-- [Michael Saylor downplays Strategy credit risk as bitcoin tumbles: 'We'll refinance the debt'](https://www.cnbc.com/2026/02/10/michael-saylor-downplays-strategy-credit-risk-as-bitcoin-tumbles-well-refinance-the-debt.html)
+- [Xiaomi's electric SUV tops China sales in January, sells twice as many as Tesla's Model Y](https://www.cnbc.com/2026/02/13/xiaomis-electric-suv-tops-china-sales-in-january-sells-twice-as-many-as-teslas-model-y.html)
+
+## 📊 CHART SIGNAL — WHAT SMART MONEY IS WATCHING
+
+- [AI disruption could spark a ‘shock to the system’ in credit markets, UBS analyst says](https://www.cnbc.com/2026/02/13/ai-credit-markets.html)
+
+Explain the underlying macro signal like you’re talking to a smart friend.
 
 
 Write a Substack-ready daily brief from this.
