@@ -11,12 +11,10 @@ ROOT = Path(__file__).resolve().parents[1]
 FEEDS_PATH = ROOT / "feeds.json"
 OUT_DIR = ROOT / "briefs"
 
-# Tunables (can be overridden by env vars in GitHub Actions)
 MAX_ITEMS_PER_FEED = int(os.getenv("MAX_ITEMS_PER_FEED", "10"))
 MAX_ITEMS_PER_CATEGORY = int(os.getenv("MAX_ITEMS_PER_CATEGORY", "7"))
 DAYS_BACK = int(os.getenv("DAYS_BACK", "7"))
 
-# Simple spam filters (especially Yahoo Finance)
 BLOCK_TITLE_KEYWORDS = [
     "Earnings Call Summary",
     "Earnings Call Transcript",
@@ -35,10 +33,6 @@ def domain(url: str) -> str:
         return ""
 
 def parse_datetime(entry) -> str:
-    """
-    Returns ISO8601 Zulu string like: 2026-02-13T12:34:56Z
-    or empty string if unavailable.
-    """
     dt = None
     for key in ("published_parsed", "updated_parsed"):
         t = getattr(entry, key, None)
@@ -53,10 +47,6 @@ def parse_datetime(entry) -> str:
     return dt.isoformat().replace("+00:00", "Z")
 
 def within_days(published_iso: str, days_back: int) -> bool:
-    """
-    Keep only items within N days of now (UTC).
-    If date is missing, keep it (some feeds omit dates).
-    """
     if not published_iso:
         return True
     try:
@@ -68,7 +58,6 @@ def within_days(published_iso: str, days_back: int) -> bool:
 
 def normalize_category_name(cat_name: str) -> str:
     pretty = cat_name.replace("_", " ").title()
-    # Fix common acronyms after .title()
     pretty = pretty.replace("Ai", "AI").replace("Rwa", "RWA").replace("Btc", "BTC")
     return pretty
 
@@ -77,7 +66,6 @@ def load_feeds():
         return json.load(f)
 
 def fetch_feed(url: str):
-    # User agent helps avoid some RSS blocks
     return feedparser.parse(
         url,
         agent="Mozilla/5.0 (compatible; BriefBot/1.0; +https://github.com)"
@@ -91,9 +79,7 @@ def build():
     date_str = now_utc.strftime("%Y-%m-%d")
     out_path = OUT_DIR / f"{date_str}.md"
 
-    # Dedupe across all categories by (link,title)
     seen = set()
-
     md = []
     md.append(f"# Daily Brief — Bitcoin • AI • Finance ({date_str})\n")
     md.append(f"_Generated: {now_utc.isoformat().replace('+00:00','Z')}_\n")
@@ -114,7 +100,6 @@ def build():
                 if not title or not link:
                     continue
 
-                # Title spam filter (Yahoo earnings-call spam, transcripts, etc.)
                 if any(k.lower() in title.lower() for k in BLOCK_TITLE_KEYWORDS):
                     continue
 
@@ -137,18 +122,6 @@ def build():
         if not items:
             continue
 
-        # Sort: newest first (if date present), then domain/title
-        def sort_key(x):
-            # Use a low value for missing published dates so they appear later
-            return (
-                0 if x["published"] else 1,
-                "" if not x["published"] else x["published"],
-                x["domain"],
-                x["title"].lower(),
-            )
-
-        # Newest first means reverse on published; easiest: sort by published and reverse
-        # We'll do a custom approach: separate dated vs undated
         dated = [i for i in items if i["published"]]
         undated = [i for i in items if not i["published"]]
         dated.sort(key=lambda x: x["published"], reverse=True)
